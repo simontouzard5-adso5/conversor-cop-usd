@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor COP ⇄ USD | Divisas al instante</title>
+  <meta name="description" content="Convierte Pesos Colombianos a Dólares Estadounidenses y viceversa con una tasa de cambio personalizada.">
+
+  <!-- Tipografías: Sora para cifras/titulares, Inter para texto de interfaz -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="page">
+    <main class="card" id="converter-card">
+
+      <!-- Encabezado -->
+      <header class="card__header">
+        <span class="eyebrow">Conversor de divisas</span>
+        <h1 class="title">Pesos <span class="title__arrows" aria-hidden="true">⇄</span> Dólares</h1>
+        <p class="subtitle">Calcula tu conversión con la tasa de cambio que tú definas.</p>
+      </header>
+
+      <!-- Selector de dirección de conversión + intercambio rápido -->
+      <section class="direction" aria-label="Tipo de conversión">
+        <div class="currency-chip" id="chip-from">
+          <span class="currency-chip__badge badge--cop" aria-hidden="true">$</span>
+          <div class="currency-chip__text">
+            <span class="currency-chip__code" id="label-from-code">COP</span>
+            <span class="currency-chip__name" id="label-from-name">Peso colombiano</span>
+          </div>
+        </div>
+
+        <button type="button" class="swap-btn" id="swap-btn" aria-label="Intercambiar monedas" title="Intercambiar monedas">
+          <svg viewBox="0 0 24 24" class="swap-btn__icon" aria-hidden="true">
+            <path d="M7 7h11l-3.2-3.2a1 1 0 1 1 1.4-1.4l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18 9H7a1 1 0 0 1 0-2Z"/>
+            <path d="M17 17H6l3.2 3.2a1 1 0 1 1-1.4 1.4l-5-5a1 1 0 0 1 0-1.4l5-5a1 1 0 1 1 1.4 1.4L6 15h11a1 1 0 0 1 0 2Z"/>
+          </svg>
+        </button>
+
+        <div class="currency-chip" id="chip-to">
+          <span class="currency-chip__badge badge--usd" aria-hidden="true">$</span>
+          <div class="currency-chip__text">
+            <span class="currency-chip__code" id="label-to-code">USD</span>
+            <span class="currency-chip__name" id="label-to-name">Dólar estadounidense</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Formulario de conversión -->
+      <form id="converter-form" novalidate>
+
+        <!-- Selector explícito del tipo de conversión -->
+        <div class="field">
+          <label for="direction-select">Tipo de conversión</label>
+          <select id="direction-select" class="input input--select">
+            <option value="COP_USD">Peso colombiano (COP) → Dólar (USD)</option>
+            <option value="USD_COP">Dólar (USD) → Peso colombiano (COP)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="amount-input">Cantidad a convertir</label>
+          <div class="input-group">
+            <span class="input-group__prefix" id="amount-prefix" aria-hidden="true">COP</span>
+            <input
+              type="number"
+              id="amount-input"
+              class="input"
+              inputmode="decimal"
+              step="any"
+              min="0"
+              placeholder="Ej: 1.000.000"
+              autocomplete="off"
+            >
+          </div>
+          <p class="field__error" id="amount-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="rate-input">Tasa de cambio (1 USD equivale a cuántos COP)</label>
+          <div class="input-group">
+            <span class="input-group__prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="rate-input"
+              class="input"
+              inputmode="decimal"
+              step="any"
+              min="0"
+              placeholder="Ej: 4.100"
+              autocomplete="off"
+            >
+          </div>
+          <p class="field__error" id="rate-error" role="alert"></p>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn--primary" id="convert-btn">
+            <span>Convertir</span>
+          </button>
+          <button type="button" class="btn btn--ghost" id="clear-btn">
+            <span>Limpiar</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Resultado -->
+      <section class="result" id="result-box" aria-live="polite" hidden>
+        <span class="result__label">Resultado</span>
+        <p class="result__value" id="result-value">—</p>
+        <p class="result__formula" id="result-formula"></p>
+        <p class="result__timestamp" id="result-timestamp"></p>
+      </section>
+
+      <!-- Historial -->
+      <section class="history">
+        <div class="history__header">
+          <h2>Historial reciente</h2>
+          <button type="button" class="link-btn" id="clear-history-btn">Vaciar historial</button>
+        </div>
+        <ul class="history__list" id="history-list">
+          <li class="history__empty" id="history-empty">Todavía no has hecho ninguna conversión.</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <p class="page__footnote">Ingresa tú mismo la tasa de cambio del día para obtener resultados precisos.</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
